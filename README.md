@@ -7,22 +7,40 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
+`3.0.2`
 
 * System dependencies
 
+`Rails`
+`Postgres`
+`Sidekiq`
+
 * Configuration
+
+Put your username and password for postgres database into `application.yml` file,
+located under `config` folder
 
 * Database creation
 
+### `rails db:create`
+
 * Database initialization
+
+### `rails db:migrate`
+
 
 * How to run the test suite
 
+### `rspec spec`
+
+
 * Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+To run background jobs you need to have `redis` installed on your machine
+then:
+1) `redis server`
+2) `sidekiq`
 
-* ...
 
 Frontend
 # Getting Started with Create React App
