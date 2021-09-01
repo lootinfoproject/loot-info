@@ -1,0 +1,3 @@
+cancel_invite_job:
+  cron: "*/15 * * * *"
+  class: "OpenSea::FetchCollectionsFloorWorker"

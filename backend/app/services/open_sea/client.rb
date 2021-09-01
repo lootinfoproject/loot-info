@@ -1,5 +1,7 @@
 module OpenSea
   class Client
+    include Actions::Assets
+
     attr_reader :http_client
 
     API_URL = URI('https://api.opensea.io/api/v1/')
