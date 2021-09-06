@@ -34,6 +34,7 @@ module Utils
       # custom settings
       yield request if block_given?
 
+      binding.pry
       resp = https.request(request)
       JSON.parse(resp.body) if resp.body.present?
     end
