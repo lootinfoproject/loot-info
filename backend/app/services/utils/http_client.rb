@@ -26,11 +26,10 @@ module Utils
     def method_missing(method, *args, &block)
       super unless respond_to_missing?(method)
 
-      request = "Net::HTTP::#{method.capitalize}".constantize.new("#{uri.path}#{URI(args[0]).path}")
+      request = build_request_object(method, args[0])
 
       # default settings
-      apply_headers(request)
-      request.body = args[1].to_json if args[1]
+      apply_default_settings(request, args[1])
 
       # custom settings
       yield request if block_given?
@@ -45,10 +44,19 @@ module Utils
 
     private
 
+    def apply_default_settings(request, params)
+      apply_headers(request)
+      request.body = params.to_json if params
+    end
+
     def apply_headers(request)
       headers.each do |header|
         request[header[0]] = header[1]
       end
+    end
+
+    def build_request_object(method, path_string)
+      "Net::HTTP::#{method.capitalize}".constantize.new("#{uri.path}#{URI(path_string).path}")
     end
   end
 end
