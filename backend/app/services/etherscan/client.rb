@@ -1,5 +1,7 @@
 module Etherscan
   class Client < Utils::HttpClient
+    include Modules::Contract
+
     API_URL = URI('https://api.etherscan.io/api')
     HEADERS = [
       'Content-Type' => 'application/x-www-form-urlencoded'
