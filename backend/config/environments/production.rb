@@ -3,6 +3,7 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   config.hosts << ENV['CLIENT_APP_HOST']
+  config.hosts << ENV['APP_HOST']
   config.middleware.insert_before 0, Rack::Cors do
     allow do
       origins ENV['CLIENT_APP_HOST'] # <- Create React App port URL
