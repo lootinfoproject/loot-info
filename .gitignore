@@ -38,7 +38,7 @@
 /frontend/.pnp
 /frontend/.pnp.js
 
-/frontend/.env
+/frontend/.env.development
 
 # testing
 /frontend/coverage
