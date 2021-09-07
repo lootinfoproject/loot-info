@@ -2,7 +2,15 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
+  config.hosts << ENV['CLIENT_APP_HOST']
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins ENV['CLIENT_APP_HOST'] # <- Create React App port URL
+      resource '*',
+               headers: :any,
+               methods: %i[get post put patch delete options head]
+    end
+  end
   # Code is not reloaded between requests.
   config.cache_classes = true
 
