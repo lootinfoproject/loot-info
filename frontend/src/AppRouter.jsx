@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import ProjectPage from './components/ProjectPage/ProjectPage'
+import ProjectPage from './components/ProjectPage/ProjectPage.jsx'
 import ProjectsPage from './components/ProjectsPage/ProjectsPage'
 
 export default function AppRouter() {

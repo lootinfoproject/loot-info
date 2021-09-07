@@ -35,9 +35,6 @@ export default function ProjectPage() {
     })
   }
 
-  console.log(inProcess)
-  console.log(claimedState)
-
   if (project)
     return <>
       <div className="jumbotron jumbotron-fluid align-items-center d-flex flex-column">
