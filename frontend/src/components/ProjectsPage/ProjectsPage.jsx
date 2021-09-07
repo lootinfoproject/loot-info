@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Row, Col, Alert } from 'shards-react'
+import { Container, Row, Col, Alert, ListGroup, ListGroupItemHeading } from 'shards-react'
 import { Spinner } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
@@ -15,7 +15,7 @@ export default function ProjectsPage() {
       dispatch({type: 'SET_PROJECTS', projects: resp.data})
       setInitialLoading(false)
     })
-  }, [])
+  }, [dispatch])
 
   return <Container>
     <Row>
@@ -43,17 +43,17 @@ export default function ProjectsPage() {
           initialLoading ?
             <Spinner className='mt-4' animation="border" />
           : projects.length ?
-            <ul>
+            <ListGroup className='align-items-center mt-4'>
               {
-                projects.map((project) => {
-                  return <li>
-                    <Link to={`/projects/${project.slug}`}>
+                projects.map((project, index) => {
+                  return  <Link className='w-50 list-group-item' key={index} to={`/projects/${project.slug}`}>
+                    <ListGroupItemHeading className='mb-0'>
                       { project.title }
-                    </Link>
-                  </li>
+                    </ListGroupItemHeading>
+                  </Link>
                 })
               }
-            </ul>
+            </ListGroup>
             : <span>
               No projects Available
             </span>

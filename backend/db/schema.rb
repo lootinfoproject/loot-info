@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_06_084222) do
+ActiveRecord::Schema.define(version: 2021_09_07_090901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2021_09_06_084222) do
 
   create_table "projects", force: :cascade do |t|
     t.string "title"
+    t.string "slug"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -43,10 +44,10 @@ ActiveRecord::Schema.define(version: 2021_09_06_084222) do
   create_table "smart_contracts", force: :cascade do |t|
     t.string "address"
     t.string "title"
-    t.string "slug"
     t.bigint "project_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "abi"
     t.index ["project_id"], name: "index_smart_contracts_on_project_id"
   end
 

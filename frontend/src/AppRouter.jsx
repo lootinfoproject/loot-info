@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Redirect, Switch, Link, Route } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import ProjectPage from './components/ProjectPage/ProjectPage'
 import ProjectsPage from './components/ProjectsPage/ProjectsPage'
 

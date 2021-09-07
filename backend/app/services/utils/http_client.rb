@@ -26,15 +26,16 @@ module Utils
     def method_missing(method, *args, &block)
       super unless respond_to_missing?(method)
 
-      request = build_request_object(method, args[0])
+      query_params, body_params = prepare_params(args[1])
+
+      request = build_request_object(method, args[0], query_params)
 
       # default settings
-      apply_default_settings(request, args[1])
+      apply_default_settings(request, body_params)
 
       # custom settings
       yield request if block_given?
 
-      binding.pry
       resp = https.request(request)
       JSON.parse(resp.body) if resp.body.present?
     end
@@ -47,7 +48,7 @@ module Utils
 
     def apply_default_settings(request, params)
       apply_headers(request)
-      request.body = params.to_json if params
+      request.body = params.to_json if params.any?
     end
 
     def apply_headers(request)
@@ -56,8 +57,27 @@ module Utils
       end
     end
 
-    def build_request_object(method, path_string)
-      "Net::HTTP::#{method.capitalize}".constantize.new("#{uri.path}#{URI(path_string).path}")
+    def build_request_object(method, path_string, params)
+      uri.query = URI.encode_www_form(params) if params.any?
+
+      "Net::HTTP::#{method.capitalize}".constantize.new(
+        "#{uri.path}#{URI(path_string).path}#{uri.query ? "?#{uri.query}" : ''}"
+      )
+    end
+
+    def prepare_params(params)
+      query_params = (params[:query_params] || {}).merge(default_query_params)
+      body_params = (params[:body_params] || {}).merge(default_body_params)
+
+      [query_params, body_params]
+    end
+
+    def default_body_params
+      {}
+    end
+
+    def default_query_params
+      {}
     end
   end
 end
