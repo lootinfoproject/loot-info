@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { InputGroup, FormInput, InputGroupAddon, Container, Button, Row, Col, Badge } from 'shards-react'
+import { useState, useRef } from 'react'
+import { InputGroup, FormInput, InputGroupAddon, Container, Button, Row, Col, Badge, Form } from 'shards-react'
 import { useParams, Redirect } from 'react-router-dom'
 import { Spinner } from 'react-bootstrap'
 import { detectClaimed } from './ProjectPage.js'
@@ -7,9 +7,10 @@ import Web3 from 'web3'
 import { useSelector } from 'react-redux'
 import './ProjectPage.scss'
 
-const web3 = new Web3(Web3.givenProvider);
+const web3 = new Web3(Web3.givenProvider || `wss://mainnet.infura.io/ws/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`)
 
 export default function ProjectPage() {
+  const form = useRef()
   const { projectSlug } = useParams()
   const project = useSelector((state) => state.projects.find((project) => project.slug === projectSlug))
   const [tokenId, setTokenId] = useState()
@@ -17,6 +18,12 @@ export default function ProjectPage() {
   const [claimedState, setClaimedState] = useState([])
 
   const detectClaimedForToken = () => {
+    if (!form.current.checkValidity()) {
+      form.current.reportValidity()
+
+      return
+    }
+
     setInProcess(true)
 
     const requests = project.smart_contracts.map((projectContract) => {
@@ -37,33 +44,42 @@ export default function ProjectPage() {
 
   if (project)
     return <>
-      <div className="jumbotron jumbotron-fluid align-items-center d-flex flex-column">
-        <h1>{project.title}</h1>
-        <InputGroup className='w-25 mt-4 token-input-group'>
-          <FormInput defaultValue={tokenId}
-                    onChange={(e) => setTokenId(e.target.value)}
-                    placeholder="tokenId" />
-          <InputGroupAddon type="append">
-            <Button disabled={!tokenId} onClick={detectClaimedForToken} theme="secondary">Check</Button>
-          </InputGroupAddon>
-        </InputGroup>
+      <div className="jumbotron jumbotron-fluid d-flex flex-column">
+        <h1 className='mx-auto'>{project.title}</h1>
+        <Form innerRef={form}>
+          <InputGroup className='mx-auto w-25 mt-4 token-input-group'>
+            <FormInput defaultValue={tokenId}
+                       onChange={(e) => setTokenId(e.target.value)}
+                       placeholder="Token id"
+                       type="number"
+                       min="1"
+                       max="8000" />
+            <InputGroupAddon type="append">
+              <Button disabled={!tokenId} onClick={detectClaimedForToken} theme="secondary">Check</Button>
+            </InputGroupAddon>
+          </InputGroup>
+        </Form>
       </div>
-      <Container>
+      <Container className='d-flex flex-column mx-auto'>
         {
           inProcess ?
             <Spinner className='mx-auto mt-3' animation='border' />
-          : claimedState.map((rec, index) => {
-            return <Row className={`text-center ${index > 0 ? 'mt-3' : ''}`}>
-              <Col>{rec.name}</Col>
-              <Col>
-                {
-                  rec.claimed ?
-                    <Badge theme="danger">Claimed</Badge> :
-                    <Badge theme="success">Unclaimed</Badge>
-                }
-              </Col>
-            </Row>
-          })
+          : <div className='d-flex flex-column w-100 mx-auto'>
+              {
+                claimedState.map((rec, index) => {
+                  return <Row key={index} className={`text-center ${index > 0 ? 'mt-3' : ''}`}>
+                    <Col>{rec.name}</Col>
+                    <Col>
+                      {
+                        rec.claimed ?
+                          <Badge theme="danger">Claimed</Badge> :
+                          <Badge theme="success">Unclaimed</Badge>
+                      }
+                    </Col>
+                  </Row>
+                })
+              }
+            </div>
         }
       </Container>
     </>
