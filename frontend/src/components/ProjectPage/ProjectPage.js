@@ -19,9 +19,13 @@ function detectLootClaimed(projectContract, contractInstance, tokenId) {
 }
 
 function detectRealmsClaimed(contractInstance, tokenId) {
-  return contractInstance.methods.ownerOf(tokenId).call()
+  return contractInstance.methods.ownerOf(tokenId).call().catch((_error) => {
+    return false
+  })
 }
 
 function detectAdventureGoldClaimed(contractInstance, tokenId) {
-  return contractInstance.methods.seasonClaimedByTokenId(0, tokenId).call()
+  return contractInstance.methods.seasonClaimedByTokenId(0, tokenId).call().catch((_error) => {
+    return false
+  })
 }
