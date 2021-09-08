@@ -17,7 +17,9 @@ export default function ProjectPage() {
   const [inProcess, setInProcess] = useState(false)
   const [claimedState, setClaimedState] = useState([])
 
-  const detectClaimedForToken = () => {
+  const detectClaimedForToken = (e) => {
+    e.preventDefault();
+
     if (!form.current.checkValidity()) {
       form.current.reportValidity()
 
@@ -46,11 +48,12 @@ export default function ProjectPage() {
     return <>
       <div className="jumbotron jumbotron-fluid d-flex flex-column">
         <h1 className='mx-auto'>{project.title}</h1>
-        <Form innerRef={form}>
+        <Form onSubmit={detectClaimedForToken} innerRef={form}>
           <InputGroup className='mx-auto w-25 mt-4 token-input-group'>
             <FormInput defaultValue={tokenId}
                        onChange={(e) => setTokenId(e.target.value)}
                        placeholder="Token id"
+                       required
                        type="number"
                        min="1"
                        max="8000" />
