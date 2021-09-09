@@ -1,16 +1,14 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import ProjectPage from './components/ProjectPage/ProjectPage.jsx'
 import ProjectsPage from './components/ProjectsPage/ProjectsPage'
+import { Navbar } from 'shards-react'
+import { Link } from 'react-router-dom'
 
 export default function AppRouter() {
   return <Router>
-    {/* <div>
-      <ul>
-        <li>
-          <Link to='/projects/link'>Link</Link>
-        </li>
-      </ul>
-    </div> */}
+    <Navbar type='dark' theme='secondary'>
+      <Link className='navbar-link navbar-brand' to='/'>Loot info</Link>
+    </Navbar>
 
     <Switch>
       <Route path='/projects/:projectSlug'>

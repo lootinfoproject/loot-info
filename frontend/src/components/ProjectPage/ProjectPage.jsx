@@ -13,6 +13,8 @@ export default function ProjectPage() {
   const form = useRef()
   const { projectSlug } = useParams()
   const project = useSelector((state) => state.projects.find((project) => project.slug === projectSlug))
+  const loading = useSelector((state) => state.initialLoading)
+
   const [tokenId, setTokenId] = useState()
   const [inProcess, setInProcess] = useState(false)
   const [claimedState, setClaimedState] = useState([])
@@ -43,6 +45,13 @@ export default function ProjectPage() {
       setInProcess(false)
     })
   }
+
+  console.log(project)
+  console.log(projectSlug)
+  console.log(loading)
+
+  if (loading)
+    return null
 
   if (project)
     return <>

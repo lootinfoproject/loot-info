@@ -1,21 +1,11 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Row, Col, Alert, ListGroup, ListGroupItemHeading } from 'shards-react'
 import { Spinner } from 'react-bootstrap'
-import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios'
+import { useSelector } from 'react-redux'
 
 export default function ProjectsPage() {
   const projects = useSelector((state) => state.projects)
-  const dispatch = useDispatch()
-  const [initialLoading, setInitialLoading] = useState(true)
-
-  useEffect(() => {
-    axios.get('/projects').then((resp) => {
-      dispatch({type: 'SET_PROJECTS', projects: resp.data})
-      setInitialLoading(false)
-    })
-  }, [dispatch])
+  const loading = useSelector((state) => state.initialLoading)
 
   return <Container>
     <Row>
@@ -40,7 +30,7 @@ export default function ProjectsPage() {
       <Col className='mt-5 text-center'>
         <h3>Available projects</h3>
         {
-          initialLoading ?
+          loading ?
             <Spinner className='mt-4' animation="border" />
           : projects.length ?
             <ListGroup className='align-items-center mt-4'>

@@ -1,12 +1,20 @@
+import { useEffect } from 'react'
 import './App.scss';
 import AppRouter from './AppRouter'
-import { Navbar, NavbarBrand } from 'shards-react'
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
 
 export default function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    axios.get('/projects').then((resp) => {
+      dispatch({ type: 'SET_PROJECTS', projects: resp.data })
+      dispatch({ type: 'END_LOADING' })
+    })
+  }, [dispatch])
+
   return <div>
-    <Navbar type='dark' theme='secondary'>
-      <NavbarBrand href="/">Loot info</NavbarBrand>
-    </Navbar>
     <AppRouter />
   </div>
 }
