@@ -7,6 +7,13 @@ export function detectClaimed(project, projectContract, contractInstance, tokenI
   }
 }
 
+export function validateLootProjectToken(token) {
+  const bagId = Number(token)
+
+  return token && bagId >= 1 && bagId <= 8000
+}
+
+
 function detectLootClaimed(projectContract, contractInstance, tokenId) {
   switch (projectContract.title) {
     case 'Realms (for Adventurers)':
