@@ -88,12 +88,12 @@ export default function ProjectPage() {
         {
           inProcess ?
             <Spinner className='mx-auto mt-3' animation='border' />
-          : <div className='d-flex flex-column w-100 mx-auto'>
+          : <div className='d-flex flex-column mx-auto results-list'>
               {
                 claimedState.map((rec, index) => {
                   return <Row key={index} className={`text-center ${index > 0 ? 'mt-3' : ''}`}>
-                    <Col>{rec.name}</Col>
-                    <Col>
+                    <Col className='text-left'>{rec.name}</Col>
+                    <Col className='text-right'>
                       {
                         rec.claimed ?
                           <Badge theme="danger">Claimed</Badge> :
