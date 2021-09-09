@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { InputGroup, FormInput, InputGroupAddon, Container, Button, Row, Col, Badge, Form } from 'shards-react'
 import { useParams, Redirect } from 'react-router-dom'
 import { Spinner } from 'react-bootstrap'
@@ -24,7 +24,7 @@ export default function ProjectPage() {
   const [inProcess, setInProcess] = useState(false)
   const [claimedState, setClaimedState] = useState([])
 
-  const detectClaimedForToken = () => {
+  const detectClaimedForToken = useCallback(() => {
     setInProcess(true)
 
     const requests = project.smart_contracts.map((projectContract) => {
@@ -41,7 +41,7 @@ export default function ProjectPage() {
       )
       setInProcess(false)
     })
-  }
+  }, [setInProcess, setClaimedState, project, tokenId])
 
   const submitForm = (e) => {
     e.preventDefault()
@@ -59,7 +59,8 @@ export default function ProjectPage() {
     if (defaultTokenIdValid && project) {
       detectClaimedForToken()
     }
-  }, [project])
+  // eslint-disable-next-line
+  }, [project, defaultTokenIdValid])
 
   if (loading)
     return null
