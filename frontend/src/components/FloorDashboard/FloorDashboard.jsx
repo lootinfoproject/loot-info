@@ -11,8 +11,6 @@ export default function FloorDashboard() {
     })
   }, [])
 
-  console.log(collections)
-
   return <Table striped bordered>
     <thead>
       <tr>
