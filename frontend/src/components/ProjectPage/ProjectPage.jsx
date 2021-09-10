@@ -27,16 +27,16 @@ export default function ProjectPage() {
   const detectClaimedForToken = useCallback(() => {
     setInProcess(true)
 
-    const requests = project.smart_contracts.map((projectContract) => {
-      const contractInstance = new web3.eth.Contract(JSON.parse(projectContract.abi), projectContract.address)
-
-      return detectClaimed(project, projectContract, contractInstance, tokenId)
+    const requests = project.referral_projects.map((referralProject) => {
+      const contract = referralProject.smart_contract
+      const contractInstance = new web3.eth.Contract(JSON.parse(contract.abi), contract.address)
+      return detectClaimed(project, referralProject, contractInstance, tokenId)
     })
 
     Promise.all(requests).then((claimedResults) => {
       setClaimedState(
         claimedResults.map((result, index) => (
-          { name: project.smart_contracts[index].title, claimed: result })
+          { name: project.referral_projects[index].title, claimed: result })
         )
       )
       setInProcess(false)

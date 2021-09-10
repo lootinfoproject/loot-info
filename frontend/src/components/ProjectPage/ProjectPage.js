@@ -1,7 +1,7 @@
-export function detectClaimed(project, projectContract, contractInstance, tokenId) {
+export function detectClaimed(project, referralProject, contractInstance, tokenId) {
   switch (project.title) {
     case 'Loot':
-      return detectLootClaimed(projectContract, contractInstance, tokenId)
+      return detectLootClaimed(referralProject, contractInstance, tokenId)
     default:
       return false
   }
@@ -14,18 +14,16 @@ export function validateLootProjectToken(token) {
 }
 
 
-function detectLootClaimed(projectContract, contractInstance, tokenId) {
-  switch (projectContract.title) {
-    case 'Realms (for Adventurers)':
-      return detectRealmsClaimed(contractInstance, tokenId)
+function detectLootClaimed(referralProject, contractInstance, tokenId) {
+  switch (referralProject.title) {
     case 'Adventure Gold':
       return detectAdventureGoldClaimed(contractInstance, tokenId)
     default:
-      return false
+      return detectClaimedCheckingOwner(contractInstance, tokenId)
   }
 }
 
-function detectRealmsClaimed(contractInstance, tokenId) {
+function detectClaimedCheckingOwner(contractInstance, tokenId) {
   return contractInstance.methods.ownerOf(tokenId).call().catch((_error) => {
     return false
   })
