@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Container, Row, Col, Alert, ListGroup, ListGroupItemHeading, ButtonGroup, Button } from 'shards-react'
+import { Container, Row, Col, Alert, ListGroup, ListGroupItemHeading, ButtonGroup } from 'shards-react'
 import { Spinner } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 

@@ -1,0 +1,19 @@
+{
+  "environments": {
+    "production": {
+      "addons": [
+        "heroku-postgresql",
+        "papertrail"
+      ],
+      "scripts": {
+        "postdeploy": "bundle exec rake data_import:after_deploy"
+      },
+      "formation": {
+        "web": {
+          "quantity": 1,
+          "size": "hobby"
+        }
+      }
+    }
+  }
+}
