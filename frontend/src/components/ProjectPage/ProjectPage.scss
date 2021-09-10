@@ -7,11 +7,11 @@
 .results-list {
   width: 100%;
 
-  @include media-breakpoint-up(xl) {
-    width: 40%;
-  }
+  // @include media-breakpoint-up(xl) {
+  //   width: 60%;
+  // }
 
-  @include media-breakpoint-only(lg) {
-    width: 50%;
-  }
+  // @include media-breakpoint-only(lg) {
+  //   width: 70%;
+  // }
 }

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { InputGroup, FormInput, InputGroupAddon, Container, Button, Row, Col, Badge, Form } from 'shards-react'
+import { InputGroup, FormInput, InputGroupAddon, Container, Button, Row, Col, Badge, Form, ButtonGroup } from 'shards-react'
 import { useParams, Redirect } from 'react-router-dom'
 import { Spinner } from 'react-bootstrap'
 import { detectClaimed, validateLootProjectToken } from './ProjectPage.js'
@@ -22,7 +22,7 @@ export default function ProjectPage() {
 
   const [tokenId, setTokenId] = useState(defaultTokenIdValid ? defaultTokenId : undefined)
   const [inProcess, setInProcess] = useState(false)
-  const [claimedState, setClaimedState] = useState([])
+  const [refProjects, setRefProjects] = useState([])
 
   const detectClaimedForToken = useCallback(() => {
     setInProcess(true)
@@ -34,14 +34,10 @@ export default function ProjectPage() {
     })
 
     Promise.all(requests).then((claimedResults) => {
-      setClaimedState(
-        claimedResults.map((result, index) => (
-          { name: project.referral_projects[index].title, claimed: result })
-        )
-      )
+      setRefProjects(claimedResults)
       setInProcess(false)
     })
-  }, [setInProcess, setClaimedState, project, tokenId])
+  }, [setInProcess, setRefProjects, project, tokenId])
 
   const submitForm = (e) => {
     e.preventDefault()
@@ -90,15 +86,33 @@ export default function ProjectPage() {
             <Spinner className='mx-auto mt-3' animation='border' />
           : <div className='d-flex flex-column mx-auto results-list'>
               {
-                claimedState.map((rec, index) => {
-                  return <Row key={index} className={`text-center ${index > 0 ? 'mt-3' : ''}`}>
-                    <Col className='text-left'>{rec.name}</Col>
-                    <Col className='text-right'>
+                refProjects.map((project, index) => {
+                  return <Row key={index} className={`align-items-center ${index > 0 ? 'mt-3' : ''}`}>
+                    <Col className='text-left'>
+                      {project.title}
+                    </Col>
+                    <Col className='text-center'>
                       {
-                        rec.claimed ?
+                        project.claimed ?
                           <Badge theme="danger">Claimed</Badge> :
                           <Badge theme="success">Unclaimed</Badge>
                       }
+                    </Col>
+                    <Col className='text-right'>
+                      <ButtonGroup size='sm'>
+                        {
+                          project.smart_contract && !project.claimed &&
+                            <a className='btn btn-light' href={project.smart_contract.contract_url}>
+                              View contract
+                            </a>
+                        }
+                        {
+                          project.nft_collection &&
+                            <a className='ml-2 btn btn-light' href={project.nft_collection.collection_url}>
+                              View collection
+                            </a>
+                        }
+                      </ButtonGroup>
                     </Col>
                   </Row>
                 })
