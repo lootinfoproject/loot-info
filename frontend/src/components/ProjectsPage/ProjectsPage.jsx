@@ -46,13 +46,13 @@ export default function ProjectsPage() {
                       {
                         project.nft_collection &&
                           <a className='btn btn-light' href={project.nft_collection.collection_url}>
-                            View collection
+                            Etherscan
                           </a>
                       }
                       {
                         project.smart_contract &&
                           <a className='ml-2 btn btn-light' href={project.smart_contract.contract_url}>
-                            View contract
+                            Open Sea
                           </a>
                       }
                     </ButtonGroup>

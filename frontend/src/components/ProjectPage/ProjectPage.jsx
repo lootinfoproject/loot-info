@@ -101,15 +101,15 @@ export default function ProjectPage() {
                     <Col className='text-right'>
                       <ButtonGroup size='sm'>
                         {
-                          project.smart_contract && !project.claimed &&
-                            <a className='btn btn-light' href={project.smart_contract.contract_url}>
-                              View contract
+                          project.smart_contract &&
+                            <a style={!project.nft_collection ? { marginRight: '100px' }: {}} className='btn btn-light' href={project.smart_contract.contract_url}>
+                              Etherscan
                             </a>
                         }
                         {
                           project.nft_collection &&
                             <a className='ml-2 btn btn-light' href={project.nft_collection.collection_url}>
-                              View collection
+                              Open Sea
                             </a>
                         }
                       </ButtonGroup>
