@@ -6,7 +6,7 @@
         "papertrail"
       ],
       "scripts": {
-        "postdeploy": "bundle exec rake data_import:after_deploy"
+        "postdeploy": "bundle exec rake callbacks:after_deploy"
       },
       "formation": {
         "web": {

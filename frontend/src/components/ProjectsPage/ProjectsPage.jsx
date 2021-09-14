@@ -44,14 +44,14 @@ export default function ProjectsPage() {
                     </Link>
                     <ButtonGroup>
                       {
-                        project.nft_collection &&
-                          <a className='btn btn-light' href={project.nft_collection.collection_url}>
+                        project.collection &&
+                          <a className='btn btn-light' href={project.collection.url}>
                             Etherscan
                           </a>
                       }
                       {
-                        project.smart_contract &&
-                          <a className='ml-2 btn btn-light' href={project.smart_contract.contract_url}>
+                        project.contract &&
+                          <a className='ml-2 btn btn-light' href={project.contract.url}>
                             Open Sea
                           </a>
                       }

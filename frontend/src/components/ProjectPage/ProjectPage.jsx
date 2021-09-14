@@ -22,22 +22,23 @@ export default function ProjectPage() {
 
   const [tokenId, setTokenId] = useState(defaultTokenIdValid ? defaultTokenId : undefined)
   const [inProcess, setInProcess] = useState(false)
-  const [refProjects, setRefProjects] = useState([])
+  const [derivativeProjects, setDerivativeProjects] = useState([])
 
   const detectClaimedForToken = useCallback(() => {
     setInProcess(true)
 
-    const requests = project.referral_projects.map((referralProject) => {
-      const contract = referralProject.smart_contract
+    const requests = project.derivative_projects.map((derivativeProject) => {
+      const contract = derivativeProject.contract
+      console.log(contract)
       const contractInstance = new web3.eth.Contract(JSON.parse(contract.abi), contract.address)
-      return detectClaimed(project, referralProject, contractInstance, tokenId)
+      return detectClaimed(project, derivativeProject, contractInstance, tokenId)
     })
 
     Promise.all(requests).then((claimedResults) => {
-      setRefProjects(claimedResults)
+      setDerivativeProjects(claimedResults)
       setInProcess(false)
     })
-  }, [setInProcess, setRefProjects, project, tokenId])
+  }, [setInProcess, setDerivativeProjects, project, tokenId])
 
   const submitForm = (e) => {
     e.preventDefault()
@@ -86,7 +87,7 @@ export default function ProjectPage() {
             <Spinner className='mx-auto mt-3' animation='border' />
           : <div className='d-flex flex-column mx-auto results-list'>
               {
-                refProjects.map((project, index) => {
+                derivativeProjects.map((project, index) => {
                   return <Row key={index} className={`align-items-center ${index > 0 ? 'mt-3' : ''}`}>
                     <Col className='text-left'>
                       {project.title}
@@ -101,14 +102,14 @@ export default function ProjectPage() {
                     <Col className='text-right'>
                       <ButtonGroup size='sm'>
                         {
-                          project.smart_contract &&
-                            <a style={!project.nft_collection ? { marginRight: '100px' }: {}} className='btn btn-light' href={project.smart_contract.contract_url}>
+                          project.contract &&
+                            <a style={!project.collection ? { marginRight: '100px' }: {}} className='btn btn-light' href={project.contract.contract_url}>
                               Etherscan
                             </a>
                         }
                         {
-                          project.nft_collection &&
-                            <a className='ml-2 btn btn-light' href={project.nft_collection.collection_url}>
+                          project.collection &&
+                            <a className='ml-2 btn btn-light' href={project.collection.collection_url}>
                               Open Sea
                             </a>
                         }

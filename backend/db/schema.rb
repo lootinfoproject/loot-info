@@ -15,6 +15,26 @@ ActiveRecord::Schema.define(version: 2021_09_10_095506) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "collections", force: :cascade do |t|
+    t.decimal "current_floor", precision: 18, scale: 18
+    t.decimal "previous_floor", precision: 18, scale: 18
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "project_id"
+    t.string "url"
+    t.index ["project_id"], name: "index_collections_on_project_id"
+  end
+
+  create_table "contracts", force: :cascade do |t|
+    t.string "address"
+    t.bigint "project_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "abi"
+    t.string "url"
+    t.index ["project_id"], name: "index_contracts_on_project_id"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -26,16 +46,6 @@ ActiveRecord::Schema.define(version: 2021_09_10_095506) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
-  create_table "nft_collections", force: :cascade do |t|
-    t.decimal "current_floor", precision: 18, scale: 18
-    t.decimal "previous_floor", precision: 18, scale: 18
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "project_id"
-    t.string "collection_url"
-    t.index ["project_id"], name: "index_nft_collections_on_project_id"
-  end
-
   create_table "projects", force: :cascade do |t|
     t.string "title"
     t.string "slug"
@@ -43,16 +53,6 @@ ActiveRecord::Schema.define(version: 2021_09_10_095506) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "project_id"
     t.index ["project_id"], name: "index_projects_on_project_id"
-  end
-
-  create_table "smart_contracts", force: :cascade do |t|
-    t.string "address"
-    t.bigint "project_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.text "abi"
-    t.string "contract_url"
-    t.index ["project_id"], name: "index_smart_contracts_on_project_id"
   end
 
 end
