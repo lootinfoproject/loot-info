@@ -1,7 +1,7 @@
-export function detectClaimed(project, referralProject, contractInstance, tokenId) {
+export function detectClaimed(project, derivativeProject, contractInstance, tokenId) {
   switch (project.title) {
     case 'Loot':
-      return detectLootClaimed(referralProject, contractInstance, tokenId)
+      return detectLootClaimed(derivativeProject, contractInstance, tokenId)
     default:
       return false
   }
@@ -14,23 +14,27 @@ export function validateLootProjectToken(token) {
 }
 
 
-function detectLootClaimed(referralProject, contractInstance, tokenId) {
-  switch (referralProject.title) {
+function detectLootClaimed(derivativeProject, contractInstance, tokenId) {
+  switch (derivativeProject.title) {
     case 'Adventure Gold':
-      return detectAdventureGoldClaimed(contractInstance, tokenId)
+      return detectAdventureGoldClaimed(derivativeProject, contractInstance, tokenId)
     default:
-      return detectClaimedCheckingOwner(contractInstance, tokenId)
+      return detectClaimedCheckingOwner(derivativeProject, contractInstance, tokenId)
   }
 }
 
-function detectClaimedCheckingOwner(contractInstance, tokenId) {
-  return contractInstance.methods.ownerOf(tokenId).call().catch((_error) => {
-    return false
+function detectClaimedCheckingOwner(derivativeProject, contractInstance, tokenId) {
+  return contractInstance.methods.ownerOf(tokenId).call().then(() => {
+    return { claimed: true, ...derivativeProject }
+  }).catch((_error) => {
+    return { claimed: false, ...derivativeProject }
   })
 }
 
-function detectAdventureGoldClaimed(contractInstance, tokenId) {
-  return contractInstance.methods.seasonClaimedByTokenId(0, tokenId).call().catch((_error) => {
-    return false
+function detectAdventureGoldClaimed(derivativeProject, contractInstance, tokenId) {
+  return contractInstance.methods.seasonClaimedByTokenId(0, tokenId).call().then(() => {
+    return { claimed: true, ...derivativeProject }
+  }).catch((_error) => {
+    return { claimed: false, ...derivativeProject }
   })
 }

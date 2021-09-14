@@ -5,8 +5,8 @@ module OpenSea
     def perform
       client = Client.new
 
-      NFTCollection.each do |collection|
-        params = nft_collection_params(collection)
+      Collection.each do |collection|
+        params = collection_params(collection)
 
         asset = client.assets_list(params)['assets'][0]
         collection.update!(current_floor_price: asset['price'],
@@ -16,7 +16,7 @@ module OpenSea
 
     private
 
-    def nft_collection_params(collection)
+    def collection_params(collection)
       {
         collection: collection.name.downcase.gsub(' ', ''),
         order_by: 'sale_count',

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { InputGroup, FormInput, InputGroupAddon, Container, Button, Row, Col, Badge, Form } from 'shards-react'
+import { InputGroup, FormInput, InputGroupAddon, Container, Button, Row, Col, Badge, Form, ButtonGroup } from 'shards-react'
 import { useParams, Redirect } from 'react-router-dom'
 import { Spinner } from 'react-bootstrap'
 import { detectClaimed, validateLootProjectToken } from './ProjectPage.js'
@@ -22,26 +22,23 @@ export default function ProjectPage() {
 
   const [tokenId, setTokenId] = useState(defaultTokenIdValid ? defaultTokenId : undefined)
   const [inProcess, setInProcess] = useState(false)
-  const [claimedState, setClaimedState] = useState([])
+  const [derivativeProjects, setDerivativeProjects] = useState([])
 
   const detectClaimedForToken = useCallback(() => {
     setInProcess(true)
 
-    const requests = project.referral_projects.map((referralProject) => {
-      const contract = referralProject.smart_contract
+    const requests = project.derivative_projects.map((derivativeProject) => {
+      const contract = derivativeProject.contract
+      console.log(contract)
       const contractInstance = new web3.eth.Contract(JSON.parse(contract.abi), contract.address)
-      return detectClaimed(project, referralProject, contractInstance, tokenId)
+      return detectClaimed(project, derivativeProject, contractInstance, tokenId)
     })
 
     Promise.all(requests).then((claimedResults) => {
-      setClaimedState(
-        claimedResults.map((result, index) => (
-          { name: project.referral_projects[index].title, claimed: result })
-        )
-      )
+      setDerivativeProjects(claimedResults)
       setInProcess(false)
     })
-  }, [setInProcess, setClaimedState, project, tokenId])
+  }, [setInProcess, setDerivativeProjects, project, tokenId])
 
   const submitForm = (e) => {
     e.preventDefault()
@@ -90,15 +87,33 @@ export default function ProjectPage() {
             <Spinner className='mx-auto mt-3' animation='border' />
           : <div className='d-flex flex-column mx-auto results-list'>
               {
-                claimedState.map((rec, index) => {
-                  return <Row key={index} className={`text-center ${index > 0 ? 'mt-3' : ''}`}>
-                    <Col className='text-left'>{rec.name}</Col>
-                    <Col className='text-right'>
+                derivativeProjects.map((project, index) => {
+                  return <Row key={index} className={`align-items-center ${index > 0 ? 'mt-3' : ''}`}>
+                    <Col className='text-left'>
+                      {project.title}
+                    </Col>
+                    <Col className='text-center'>
                       {
-                        rec.claimed ?
+                        project.claimed ?
                           <Badge theme="danger">Claimed</Badge> :
                           <Badge theme="success">Unclaimed</Badge>
                       }
+                    </Col>
+                    <Col className='text-right'>
+                      <ButtonGroup size='sm'>
+                        {
+                          project.contract &&
+                            <a style={!project.collection ? { marginRight: '100px' }: {}} className='btn btn-light' href={project.contract.contract_url}>
+                              Etherscan
+                            </a>
+                        }
+                        {
+                          project.collection &&
+                            <a className='ml-2 btn btn-light' href={project.collection.collection_url}>
+                              Open Sea
+                            </a>
+                        }
+                      </ButtonGroup>
                     </Col>
                   </Row>
                 })

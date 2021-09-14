@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Container, Row, Col, Alert, ListGroup, ListGroupItemHeading } from 'shards-react'
+import { Container, Row, Col, Alert, ListGroup, ListGroupItemHeading, ButtonGroup } from 'shards-react'
 import { Spinner } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
@@ -36,11 +36,27 @@ export default function ProjectsPage() {
             <ListGroup className='align-items-center mt-4'>
               {
                 projects.map((project, index) => {
-                  return  <Link className='w-50 list-group-item' key={index} to={`/projects/${project.slug}`}>
-                    <ListGroupItemHeading className='mb-0'>
-                      { project.title }
-                    </ListGroupItemHeading>
-                  </Link>
+                  return <div key={index} className='w-50 list-group-item d-flex flex-row'>
+                    <Link className='m-auto' to={`/projects/${project.slug}`}>
+                      <ListGroupItemHeading className='mb-0'>
+                        { project.title }
+                      </ListGroupItemHeading>
+                    </Link>
+                    <ButtonGroup>
+                      {
+                        project.collection &&
+                          <a className='btn btn-light' href={project.collection.url}>
+                            Etherscan
+                          </a>
+                      }
+                      {
+                        project.contract &&
+                          <a className='ml-2 btn btn-light' href={project.contract.url}>
+                            Open Sea
+                          </a>
+                      }
+                    </ButtonGroup>
+                  </div>
                 })
               }
             </ListGroup>
