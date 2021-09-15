@@ -1,4 +1,4 @@
-class ProjectsController < ApplicationController
+class ProjectsController < ApiController
   def index
     projects = Project.includes(:contract, :collection, derivative_projects: %i[contract collection])
                       .where(project_id: nil)

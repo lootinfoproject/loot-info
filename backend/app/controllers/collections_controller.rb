@@ -1,4 +1,4 @@
-class CollectionsController < ApplicationController
+class CollectionsController < ApiController
   def index
     collections = NFTCollection.all
 
