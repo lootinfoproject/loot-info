@@ -4,7 +4,7 @@ import './ProjectInfo.scss'
 export default function ProjectInfo({project, children}) {
   return <div className="jumbotron jumbotron-fluid d-flex flex-column">
     <Container className='d-flex flex-column align-items-center'>
-      { project.image_url && <img className='project-info__logo' src={project.image_url} /> }
+      { project.image_url && <img alt="Project logo" className='project-info__logo' src={project.image_url} /> }
 
       <div className='d-flex flex-column mt-4'>
         <h1 className='mx-auto'>{project.title}</h1>
@@ -14,13 +14,13 @@ export default function ProjectInfo({project, children}) {
       <ButtonGroup className='project-info__absolute-links'>
         {
           project.contract &&
-            <a target="_blank" className='btn btn-secondary' href={project.contract.url}>
+            <a target="_blank" rel="noreferrer" className='btn btn-secondary' href={project.contract.url}>
               Etherscan
             </a>
         }
         {
           project.collection &&
-            <a target="_blank" className='ml-2 btn btn-secondary' href={project.collection.url}>
+            <a target="_blank" rel="noreferrer" className='ml-2 btn btn-secondary' href={project.collection.url}>
               Open Sea
             </a>
         }

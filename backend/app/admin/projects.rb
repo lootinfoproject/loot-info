@@ -2,8 +2,8 @@ ActiveAdmin.register Project do
   includes :project, :collection, :contract
 
   permit_params :title, :slug, :project_id, :description, :image_url,
-                collection_attributes: [:url],
-                contract_attributes: %i[url address]
+                collection_attributes: %i[id url],
+                contract_attributes: %i[id url address]
 
   index do
     active_admin_config.resource_columns.each do |attribute|
@@ -53,10 +53,12 @@ ActiveAdmin.register Project do
     end
 
     f.inputs 'Collection', for: [:collection, f.object.collection] do |col_f|
+      col_f.input :id, as: :hidden
       col_f.input :url
     end
 
     f.inputs 'Contract', for: [:contract, f.object.contract] do |con_f|
+      con_f.input :id, as: :hidden
       con_f.input :url
       con_f.input :address
     end

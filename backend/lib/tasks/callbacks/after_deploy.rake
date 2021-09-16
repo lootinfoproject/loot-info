@@ -1,6 +1,12 @@
 namespace :callbacks do
   desc 'after heroku deploy callback'
   task after_deploy: :environment do
+    def fetch_abi(ether_client, address)
+      sleep 0.2 # we can request no more than 5 times per second
+
+      ether_client.getabi(address)
+    end
+
     def create_project(attrs)
       ether_client = Etherscan::Client.new
       project = Project.find_or_initialize_by(title: attrs['title'])
@@ -20,10 +26,14 @@ namespace :callbacks do
       if attrs['contract']
         if project.contract
           project.contract.update!(**attrs['contract'])
+
+          unless project.contract.abi
+            project.contract.update!(abi: fetch_abi(ether_client, attrs['contract']['address']))
+          end
         else
-          contract_abi = ether_client.getabi(attrs['contract']['address'])
-          sleep 0.2 # we can request no more than 5 times per second
-          Contract.create!(abi: contract_abi, project: project, **attrs['contract'])
+          Contract.create!(abi: fetch_abi(ether_client, attrs['contract']['address']),
+                           project: project,
+                           **attrs['contract'])
         end
       else
         project.contract&.destroy!

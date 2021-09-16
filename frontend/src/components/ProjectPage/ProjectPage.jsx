@@ -109,13 +109,13 @@ export default function ProjectPage() {
                       <ButtonGroup size='sm'>
                         {
                           project.contract &&
-                            <a style={!project.collection ? { marginRight: '100px' }: {}} target="_blank" className='btn btn-light' href={project.contract.url}>
+                            <a style={!project.collection ? { marginRight: '100px' }: {}} target="_blank" rel="noreferrer" className='btn btn-light' href={project.contract.url}>
                               Etherscan
                             </a>
                         }
                         {
                           project.collection &&
-                            <a className='ml-2 btn btn-light' target="_blank" href={project.collection.url}>
+                            <a className='ml-2 btn btn-light' target="_blank" rel="noreferrer" href={project.collection.url}>
                               Open Sea
                             </a>
                         }
