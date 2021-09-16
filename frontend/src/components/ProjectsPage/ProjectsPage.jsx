@@ -4,7 +4,7 @@ import { Spinner } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
 export default function ProjectsPage() {
-  const projects = useSelector((state) => state.projects)
+  const projects = useSelector((state) => state.projects.filter((project) => project.derivative_projects.length))
   const loading = useSelector((state) => state.initialLoading)
 
   return <Container>
@@ -44,14 +44,14 @@ export default function ProjectsPage() {
                     </Link>
                     <ButtonGroup>
                       {
-                        project.collection &&
-                          <a className='btn btn-light' href={project.collection.url}>
+                        project.contract &&
+                          <a target="_blank" className='btn btn-light' href={project.contract.url}>
                             Etherscan
                           </a>
                       }
                       {
-                        project.contract &&
-                          <a className='ml-2 btn btn-light' href={project.contract.url}>
+                        project.collection &&
+                          <a target="_blank" className='ml-2 btn btn-light' href={project.collection.url}>
                             Open Sea
                           </a>
                       }

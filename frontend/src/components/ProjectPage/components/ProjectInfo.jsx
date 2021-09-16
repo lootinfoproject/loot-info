@@ -14,13 +14,13 @@ export default function ProjectInfo({project, children}) {
       <ButtonGroup className='project-info__absolute-links'>
         {
           project.contract &&
-            <a target="_blank" rel="noreferrer" className='btn btn-secondary' href={project.contract.url}>
+            <a target="_blank" className='btn btn-secondary' href={project.contract.url}>
               Etherscan
             </a>
         }
         {
           project.collection &&
-            <a target="_blank" rel="noreferrer" className='ml-2 btn btn-secondary' href={project.collection.url}>
+            <a target="_blank" className='ml-2 btn btn-secondary' href={project.collection.url}>
               Open Sea
             </a>
         }
