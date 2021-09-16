@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { InputGroup, FormInput, InputGroupAddon, Container, Button, Row, Col, Badge, Form, ButtonGroup } from 'shards-react'
-import { useParams, Redirect } from 'react-router-dom'
+import { useParams, Redirect, Link } from 'react-router-dom'
 import { Spinner } from 'react-bootstrap'
 import { detectClaimed, validateLootProjectToken } from './ProjectPage.js'
 import Web3 from 'web3'
 import { useSelector } from 'react-redux'
 import { useQuery } from 'hooks'
 import './ProjectPage.scss'
+import ProjectInfo from './components/ProjectInfo'
 
 const web3 = new Web3(Web3.givenProvider || `wss://mainnet.infura.io/ws/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`)
 
@@ -29,7 +30,6 @@ export default function ProjectPage() {
 
     const requests = project.derivative_projects.map((derivativeProject) => {
       const contract = derivativeProject.contract
-      console.log(contract)
       const contractInstance = new web3.eth.Contract(JSON.parse(contract.abi), contract.address)
       return detectClaimed(project, derivativeProject, contractInstance, tokenId)
     })
@@ -59,28 +59,34 @@ export default function ProjectPage() {
   // eslint-disable-next-line
   }, [project, defaultTokenIdValid])
 
+  useEffect(() => {
+    setDerivativeProjects([])
+  }, [project])
+
   if (loading)
     return null
 
   if (project)
     return <>
-      <div className="jumbotron jumbotron-fluid d-flex flex-column">
-        <h1 className='mx-auto'>{project.title}</h1>
-        <Form onSubmit={submitForm} innerRef={form}>
-          <InputGroup className='mx-auto w-25 mt-4 token-input-group'>
-            <FormInput defaultValue={tokenId}
-                       onChange={(e) => setTokenId(e.target.value)}
-                       placeholder="Token id"
-                       required
-                       type="number"
-                       min="1"
-                       max="8000" />
-            <InputGroupAddon type="append">
-              <Button disabled={!tokenId} theme="secondary">Check</Button>
-            </InputGroupAddon>
-          </InputGroup>
-        </Form>
-      </div>
+      <ProjectInfo project={project}>
+        {
+          project.derivative_projects.length > 0 &&
+          <Form onSubmit={submitForm} innerRef={form}>
+            <InputGroup className='mx-auto w-25 mt-4 token-input-group'>
+              <FormInput defaultValue={tokenId}
+                        onChange={(e) => setTokenId(e.target.value)}
+                        placeholder="Token id"
+                        required
+                        type="number"
+                        min="1"
+                        max="8000" />
+              <InputGroupAddon type="append">
+                <Button disabled={!tokenId} theme="secondary">Check</Button>
+              </InputGroupAddon>
+            </InputGroup>
+          </Form>
+        }
+      </ProjectInfo>
       <Container className='d-flex flex-column mx-auto'>
         {
           inProcess ?
@@ -90,7 +96,7 @@ export default function ProjectPage() {
                 derivativeProjects.map((project, index) => {
                   return <Row key={index} className={`align-items-center ${index > 0 ? 'mt-3' : ''}`}>
                     <Col className='text-left'>
-                      {project.title}
+                      <Link to={`/projects/${project.slug}`}>{project.title}</Link>
                     </Col>
                     <Col className='text-center'>
                       {
@@ -103,13 +109,13 @@ export default function ProjectPage() {
                       <ButtonGroup size='sm'>
                         {
                           project.contract &&
-                            <a style={!project.collection ? { marginRight: '100px' }: {}} className='btn btn-light' href={project.contract.url}>
+                            <a style={!project.collection ? { marginRight: '100px' }: {}} target="_blank" className='btn btn-light' href={project.contract.url}>
                               Etherscan
                             </a>
                         }
                         {
                           project.collection &&
-                            <a className='ml-2 btn btn-light' href={project.collection.url}>
+                            <a className='ml-2 btn btn-light' target="_blank" href={project.collection.url}>
                               Open Sea
                             </a>
                         }

@@ -3,7 +3,9 @@ namespace :callbacks do
   task after_deploy: :environment do
     def create_project(attrs)
       ether_client = Etherscan::Client.new
-      project = Project.find_or_create_by!(title: attrs['title'])
+      project = Project.find_or_initialize_by(title: attrs['title'])
+      project.assign_attributes(description: attrs['description'], image_url: attrs['image_url'])
+      project.save!
 
       if attrs['collection']
         if project.collection

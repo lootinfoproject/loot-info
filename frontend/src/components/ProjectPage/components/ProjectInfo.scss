@@ -1,0 +1,21 @@
+@import "~bootstrap/scss/bootstrap-grid.scss";
+
+.project-info {
+  &__logo {
+    width: 126px;
+    height: 126px;
+    border-radius: 100%;
+    margin-bottom: 24px;
+  }
+
+  &__description {
+    @include media-breakpoint-up(md) {
+      width: 75%;
+    }
+  }
+
+  &__absolute-links {
+    position: absolute;
+    right: 100px;
+  }
+}
