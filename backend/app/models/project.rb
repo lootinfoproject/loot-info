@@ -7,4 +7,6 @@ class Project < ApplicationRecord
 
   has_one :contract, dependent: :destroy
   has_one :collection, dependent: :destroy
+
+  accepts_nested_attributes_for :contract, :collection
 end
