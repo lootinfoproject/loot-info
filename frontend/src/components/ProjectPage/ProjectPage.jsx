@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { InputGroup, FormInput, InputGroupAddon, Container, Button, Row, Col, Badge, Form, ButtonGroup } from 'shards-react'
-import { useParams, Redirect, Link } from 'react-router-dom'
+import { useParams, Redirect, Link, useHistory } from 'react-router-dom'
 import { Spinner } from 'react-bootstrap'
 import { detectClaimed, validateLootProjectToken } from './ProjectPage.js'
 import Web3 from 'web3'
@@ -15,6 +15,7 @@ export default function ProjectPage() {
   const form = useRef()
   const { projectSlug } = useParams()
   const query = useQuery()
+  const history = useHistory()
   const defaultTokenId = query.get('bagId')
   const defaultTokenIdValid = validateLootProjectToken(defaultTokenId)
 
@@ -49,6 +50,7 @@ export default function ProjectPage() {
       return
     }
 
+    history.push(`/projects/${project.slug}?bagId=${tokenId}`)
     detectClaimedForToken()
   }
 
@@ -109,13 +111,13 @@ export default function ProjectPage() {
                       <ButtonGroup size='sm'>
                         {
                           project.contract &&
-                            <a style={!project.collection ? { marginRight: '100px' }: {}} target="_blank" className='btn btn-light' href={project.contract.url}>
+                            <a style={!project.collection ? { marginRight: '100px' }: {}} target="_blank" rel="noreferrer" className='btn btn-light' href={project.contract.url}>
                               Etherscan
                             </a>
                         }
                         {
                           project.collection &&
-                            <a className='ml-2 btn btn-light' target="_blank" href={project.collection.url}>
+                            <a className='ml-2 btn btn-light' target="_blank" rel="noreferrer" href={project.collection.url}>
                               Open Sea
                             </a>
                         }

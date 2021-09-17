@@ -18,8 +18,11 @@ gem 'puma', '~> 5.0'
 gem 'rack-cors'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
+gem 'activeadmin'
+gem 'devise'
 gem 'figaro'
 gem 'friendly_id', '~> 5.4.0'
+gem 'sassc-rails'
 gem 'sidekiq'
 gem 'sidekiq-cron', '~> 1.2'
 

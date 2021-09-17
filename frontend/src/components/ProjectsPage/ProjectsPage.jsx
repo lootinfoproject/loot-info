@@ -45,13 +45,13 @@ export default function ProjectsPage() {
                     <ButtonGroup>
                       {
                         project.contract &&
-                          <a target="_blank" className='btn btn-light' href={project.contract.url}>
+                          <a target="_blank" rel="noreferrer" className='btn btn-light' href={project.contract.url}>
                             Etherscan
                           </a>
                       }
                       {
                         project.collection &&
-                          <a target="_blank" className='ml-2 btn btn-light' href={project.collection.url}>
+                          <a target="_blank" rel="noreferrer"className='ml-2 btn btn-light' href={project.collection.url}>
                             Open Sea
                           </a>
                       }

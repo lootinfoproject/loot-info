@@ -13,7 +13,7 @@ require "action_text/engine"
 require "action_view/railtie"
 require "action_cable/engine"
 require 'net/http'
-# require "sprockets/railtie"
+require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -25,6 +25,11 @@ module LootInfo
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
     config.generators.test_framework = false
+
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
+    config.middleware.use Rack::MethodOverride
+    config.middleware.use ActionDispatch::Flash
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
