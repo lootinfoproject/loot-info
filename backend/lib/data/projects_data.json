@@ -4,7 +4,8 @@
     "description": "Loot is randomized adventurer gear generated and stored on chain. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use Loot in any way you want.",
     "image_url": "https://lh3.googleusercontent.com/g-NFUWjS4IGgym8PHBxyhg5-G_B4x-IHgPKRkxo00JQFE3LOd-95yU2uhrokITVmV7KHEav6OMfAhfJ4roC5hwP-0tI9dMRd9wQLdw=s130",
     "collection": {
-      "url": "https://opensea.io/collection/lootproject"
+      "url": "https://opensea.io/collection/lootproject",
+      "standard": "ERC-721"
     },
     "contract": {
       "url": "https://etherscan.io/address/0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7",
@@ -16,7 +17,8 @@
         "description": "There will only ever be 8000 Loot Realms, 1 for each Loot ID. Remaining Realms are available to mint by anyone, even if you don't own Loot! Follow us on twitter for updates!\nEvery realm has been procedurally generated and is unique down to the language. Each realm has a map showing the regions, cities, rivers and topography that exist in the world. Each realm’s rankings will display the number of regions, cities, rivers, and harbors within the realm. Resource deposits and exclusive Wonders can be found in each realm with varying rarity.",
         "image_url": "https://lh3.googleusercontent.com/kHRyhl24FEUgv0Vs6AsS4jg-qZCZOiD9k5M5T7e7cvRcERcgXMQrXeCy8IZyBeOvgyMZAEGzTJPFfpR0QqqqfYeHD9BXnNnoLmlV=s130",
         "collection": {
-          "url": "https://opensea.io/collection/lootrealms"
+          "url": "https://opensea.io/collection/lootrealms",
+          "standard": "ERC-721"
         },
         "contract": {
           "url": "https://etherscan.io/address/0x7afe30cb3e53dba6801aa0ea647a0ecea7cbe18d",
@@ -26,6 +28,9 @@
       {
         "title": "Adventure Gold",
         "description": "Adventure Gold is the native ERC-20 token of the Loot non-fungible token (NFT) project. Loot is a text-based, randomized adventure gear generated and stored on-chain, created by social media network Vine co-founder Dom Hofmann.",
+        "collection": {
+          "standard": "ERC-20"
+        },
         "contract": {
           "url": "https://etherscan.io/address/0x32353a6c91143bfd6c7d363b546e62a9a2489a20",
           "address": "0x32353A6C91143bfd6C7d363B546e62a9A2489A20"
@@ -36,7 +41,8 @@
         "description": "Table Top RPG style abilities scores. All generated and stored on chain.",
         "image_url": "https://lh3.googleusercontent.com/sf6rCJG-xZODpK8kBJ-pdzNUflTinXH0v9WEo9fnPEBfCQg8qWrHitRuX_JNfHx1AOFYbWJLFqhy-wGNeI9P3PVkfPeZ0XBGGs9Skg=s130",
         "collection": {
-          "url": "https://opensea.io/collection/ability-score"
+          "url": "https://opensea.io/collection/ability-score",
+          "standard": "ERC-721"
         },
         "contract": {
           "url": "https://etherscan.io/address/0x42a87e04f87a038774fb39c0a61681e7e859937b",
@@ -48,7 +54,8 @@
         "description": "Abstract Loot is a collection of generative and animated artworks. This is the first collection designed from the Loot project's metadatas.",
         "image_url": "https://lh3.googleusercontent.com/l1_0wPG0w_0np_ccAwOZ4INQou-lpMmcY-r8ug-J6bZ-yTXtaDUp1qMEL08cJJtyO6kYEK7jCVLoG7rxKtZjdvOErrm5Yk5VgdIo=s130",
         "collection": {
-          "url": "https://opensea.io/collection/abstract-loot"
+          "url": "https://opensea.io/collection/abstract-loot",
+          "standard": "ERC-721"
         },
         "contract": {
           "url": "https://etherscan.io/address/0xcc56775606730c96ea245d9cf3890247f1c57fb1",
@@ -60,7 +67,8 @@
         "description": "Characters are randomly generated and stored on chain. They were created as part of the Loot ecosystem. The goal with Characters is to expand the Loot ecosystem with additional possibilities and interactions.\nThe characters team, alongside other derivative projects are working on elements, games, integrations and engagement possibilities that will combine both Loot and Characters.\nImages and other functionalities are intentionally omitted for others to interpret.\nFeel free to use Characters in any way you want.",
         "image_url": "https://lh3.googleusercontent.com/mPiqzV0kkrMtTeSNQVEjv1hdux9GusLdYYWQKAenzg6L4eSTrLSbOCrPGPPt5TVlyJOOCcOX0tBUgkipH3LHH3XcuqWuTSFhFT7c=s130",
         "collection": {
-          "url": "https://opensea.io/collection/characters-for-loot"
+          "url": "https://opensea.io/collection/characters-for-loot",
+          "standard": "ERC-721"
         },
         "contract": {
           "url": "https://etherscan.io/address/0x7403ac30de7309a0bf019cda8eec034a5507cbb3",
@@ -72,7 +80,8 @@
         "description": "Treasure is building decentralized, open source, composable currencies for the NFT ecosystem.",
         "image_url": "https://lh3.googleusercontent.com/HVeYD0FDUiSpJgEoGwCH8u---YXV1n51jRq8j4UHQ87rFfJsXPSavipmwwwYnKBKzepV5b_Y8hiqiIglitv6TplaWajFIDSgiJaZiQk=s130",
         "collection": {
-          "url": "https://opensea.io/collection/treasure-for-loot"
+          "url": "https://opensea.io/collection/treasure-for-loot",
+          "standard": "ERC-721"
         },
         "contract": {
           "url": "https://etherscan.io/address/0xf3dfbe887d81c442557f7a59e3a0aecf5e39f6aa",
