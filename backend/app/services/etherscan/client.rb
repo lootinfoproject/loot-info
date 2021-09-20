@@ -1,6 +1,8 @@
 module Etherscan
   class Client < Utils::HttpClient
     include Modules::Contract
+    include Modules::Stats
+    include Modules::Token
 
     API_URL = URI('https://api.etherscan.io/api')
     HEADERS = [

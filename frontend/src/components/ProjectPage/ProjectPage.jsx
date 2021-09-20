@@ -5,6 +5,8 @@ import { Spinner } from 'react-bootstrap'
 import { detectClaimed, validateLootProjectToken } from './ProjectPage.js'
 import Web3 from 'web3'
 import { useSelector } from 'react-redux'
+import axios from 'axios'
+import { formatNumber } from 'helpers'
 import { useQuery } from 'hooks'
 import './ProjectPage.scss'
 import ProjectInfo from './components/ProjectInfo'
@@ -32,11 +34,28 @@ export default function ProjectPage() {
     const requests = project.derivative_projects.map((derivativeProject) => {
       const contract = derivativeProject.contract
       const contractInstance = new web3.eth.Contract(JSON.parse(contract.abi), contract.address)
-      return detectClaimed(project, derivativeProject, contractInstance, tokenId)
+
+      let infoPromise
+      if (derivativeProject.collection.standard === 'ERC-20') {
+        infoPromise = axios.post(`/collections/${derivativeProject.collection.id}/current_price`).then((resp) => {
+          return { currentPrice: resp.data }
+        })
+      } else {
+        infoPromise = contractInstance.methods.totalSupply().call().then((res) => ({ totalSupply: res }))
+      }
+
+      return Promise.all([
+        infoPromise,
+        detectClaimed(project, derivativeProject, contractInstance, tokenId)
+      ])
     })
 
     Promise.all(requests).then((claimedResults) => {
-      setDerivativeProjects(claimedResults)
+      setDerivativeProjects(claimedResults.map((result) => {
+        return result.reduce((acc, currentValue) => {
+          return { ...acc, ...currentValue }
+        }, {})
+      }).sort((a, b) => Number(a.totalSupply) > Number(b.totalSupply) ? -1 : 1))
       setInProcess(false)
     })
   }, [setInProcess, setDerivativeProjects, project, tokenId])
@@ -105,6 +124,18 @@ export default function ProjectPage() {
                         project.claimed ?
                           <Badge theme="danger">Claimed</Badge> :
                           <Badge theme="success">Unclaimed</Badge>
+                      }
+                    </Col>
+                    <Col>
+                      { project.collection.standard === 'ERC-20' && project.currentPrice &&
+                        <>
+                          <span className='color-black'>FMV for claim:</span> ${formatNumber(project.currentPrice * 10000)}
+                        </>
+                      }
+                      { project.collection.standard === 'ERC-721' && project.totalSupply &&
+                        <>
+                          <span className='color-black'>Total supply:</span> {formatNumber(project.totalSupply)}
+                        </>
                       }
                     </Col>
                     <Col className='text-right'>
